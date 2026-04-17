@@ -135,7 +135,7 @@ function renderTable(){
   });
 
   tbody.innerHTML = filtered.map(d => `
-    <tr onclick='openDetail(${JSON.stringify(d)})'>
+    <tr>
       <td>${d["Date Created"]||""}</td>
       <td>${d.Assignee||""}</td>
       <td>${d.Brand||""}</td>
@@ -145,6 +145,11 @@ function renderTable(){
       <td>${d.Hosting||""}</td>
       <td>${d.Cloudflare||""}</td>
       <td>${d.Marketing||""}</td>
+      <td>
+        <button class="view-btn" onclick='openDetail(${JSON.stringify(d)})'>
+          View
+        </button>
+      </td>
     </tr>
   `).join("");
 }
