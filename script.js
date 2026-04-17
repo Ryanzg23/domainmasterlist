@@ -183,6 +183,7 @@ async function loadUsers(){
 
   } catch(err){
     console.error("USER LOAD ERROR:", err);
+    console.log("RAW USERS CSV:", text);
   }
 }
 
