@@ -170,7 +170,12 @@ async function loadUsers(){
       .filter(r => r.length > 1)
       .map(r => {
         let obj = {};
-        headers.forEach((h,i)=> obj[h.trim()] = (r[i] || '').trim());
+        headers.forEach((h,i)=> 
+          obj[h.trim()] = (r[i] || '')
+            .replace(/\n/g, '')
+            .replace(/\r/g, '')
+            .trim()
+        );
         return obj;
       });
 
