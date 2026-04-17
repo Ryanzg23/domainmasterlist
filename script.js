@@ -1,4 +1,5 @@
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?gid=0&single=true&output=csv";
+const USERS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?gid=240254439&single=true&output=csv";
 
 const HOSTING_MAP = {
 "GD | MAH-IP-1": "https://184.168.124.184:2087",
@@ -137,6 +138,84 @@ function parseCSV(text) {
   }
 
   return rows;
+}
+
+let users = [];
+
+async function loadUsers(){
+  try {
+    const res = await fetch(USERS_URL);
+    const text = await res.text();
+
+    const rows = parseCSV(text);
+
+    if (!rows || rows.length === 0) {
+      console.error("Users sheet empty");
+      return;
+    }
+
+    const headers = rows[0];
+
+    users = rows.slice(1)
+      .filter(r => r.length > 1)
+      .map(r => {
+        let obj = {};
+        headers.forEach((h,i)=> obj[h.trim()] = r[i] || '');
+        return obj;
+      });
+
+    console.log("USERS:", users);
+
+  } catch(err){
+    console.error("USER LOAD ERROR:", err);
+  }
+}
+
+function handleLogin(){
+  const username = document.getElementById("loginUser").value.trim().toLowerCase();
+  const password = document.getElementById("loginPass").value.trim();
+
+  const found = users.find(u => 
+    (u.Username || "").toLowerCase() === username &&
+    u.Password === password
+  );
+
+  if(found){
+    localStorage.setItem("auth", "true");
+    localStorage.setItem("user", username);
+
+    document.getElementById("loginModal").style.display = "none";
+    document.querySelector(".app").style.display = "flex";
+
+  } else {
+    document.getElementById("loginError").innerText = "Invalid username or password";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", async () => {
+
+  await loadUsers();
+
+  const isAuth = localStorage.getItem("auth");
+
+  if(isAuth){
+    document.getElementById("loginModal").style.display = "none";
+    document.querySelector(".app").style.display = "flex";
+    loadData();
+  } else {
+    document.getElementById("loginModal").style.display = "flex";
+  }
+
+  ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', renderTable);
+  });
+
+});
+
+function logout(){
+  localStorage.removeItem("auth");
+  location.reload();
 }
 
 let data = [];
