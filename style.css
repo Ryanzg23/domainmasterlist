@@ -168,7 +168,7 @@ tr:hover { background:#f9fafb; cursor:pointer; }
 
 /* Close button */
 .close-btn {
-  background:#f3f4f6;
+  background:#dc2626;
   border:none;
   border-radius:6px;
   padding:4px 8px;
@@ -177,7 +177,7 @@ tr:hover { background:#f9fafb; cursor:pointer; }
 }
 
 .close-btn:hover {
-  background:#e5e7eb;
+  background:#840909;
 }
 
 /* Sections */
