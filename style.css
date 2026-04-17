@@ -56,3 +56,65 @@ tr:hover { background:#f9fafb; cursor:pointer; }
   align-items: flex-end;
   flex-wrap: wrap;
 }
+
+
+.modal-content {
+  background:#fff;
+  padding:20px;
+  border-radius:12px;
+  width:600px;
+  max-height:85vh;
+  overflow:auto;
+}
+
+/* Header */
+.modal-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.modal-header h2 {
+  margin:0;
+  font-size:20px;
+}
+
+/* Grid layout */
+.modal-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:15px;
+}
+
+/* Sections */
+.modal-section {
+  background:#f9fafb;
+  padding:12px;
+  border-radius:8px;
+}
+
+.modal-section h4 {
+  margin:0 0 8px;
+  font-size:14px;
+  color:#374151;
+}
+
+.modal-section p {
+  margin:4px 0;
+  font-size:13px;
+}
+
+/* Full width section */
+.modal-section.full {
+  grid-column: span 2;
+}
+
+/* Links */
+.modal-section a {
+  color:#3b82f6;
+  text-decoration:none;
+}
+.modal-section a:hover {
+  text-decoration:underline;
+}
