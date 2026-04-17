@@ -292,19 +292,19 @@ async function loadData(){
 function populateBrands(){
   const brands = [
     "All",
-    "Maha168",
-    "Betberry",
-    "Usergacor",
-    "Userslot",
-    "User138",
-    "Depo168",
-    "Mabosway",
-    "Depoxito",
-    "Mabosbet",
-    "Mabosplay",
+    "MAH",
+    "BBN",
+    "USG",
+    "USL",
+    "U138",
+    "DPN",
+    "MBSW",
+    "DPX",
+    "MBS",
+    "MBP",
     "Ads",
-    "Ads MBS",
-    "Ads DPN",
+    "Ads Mbs",
+    "Ads Dpn",
     "Mabos BL"
   ];
 
