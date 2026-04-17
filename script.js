@@ -170,7 +170,7 @@ async function loadUsers(){
       .filter(r => r.length > 1)
       .map(r => {
         let obj = {};
-        headers.forEach((h,i)=> obj[h.trim()] = r[i] || '');
+        headers.forEach((h,i)=> obj[h.trim()] = (r[i] || '').trim());
         return obj;
       });
 
@@ -224,6 +224,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   document.getElementById("loginBtn").addEventListener("click", handleLogin);
+
+  // ✅ MOVE HERE
+  ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', renderTable);
+  });
 
 });
 
@@ -424,14 +430,4 @@ window.onclick = function(e){
   }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
 
-  console.log("DOM READY");
-
-  ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', renderTable);
-  });
-
-  loadData();
-});
