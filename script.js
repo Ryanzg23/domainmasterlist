@@ -145,4 +145,11 @@ window.onclick = function(e){
   document.getElementById(id).addEventListener('input', renderTable);
 });
 
-loadData();
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadData();
+
+  ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
+    document.getElementById(id).addEventListener('input', renderTable);
+  });
+});
