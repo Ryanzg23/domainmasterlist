@@ -118,3 +118,18 @@ tr:hover { background:#f9fafb; cursor:pointer; }
 .modal-section a:hover {
   text-decoration:underline;
 }
+
+.view-btn {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #3b82f6;
+  background: #fff;
+  color: #3b82f6;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.view-btn:hover {
+  background: #3b82f6;
+  color: #fff;
+}
