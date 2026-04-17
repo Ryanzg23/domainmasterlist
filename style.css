@@ -226,3 +226,15 @@ tr:hover { background:#f9fafb; cursor:pointer; }
 .modal-section.full {
   grid-column: span 2;
 }
+
+.modal-section a,
+td a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.modal-section a:hover,
+td a:hover {
+  text-decoration: underline;
+}
