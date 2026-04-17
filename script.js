@@ -154,8 +154,53 @@ function openDetail(d){
   const content = document.getElementById("modalContent");
 
   content.innerHTML = `
-    <h3>${d["Domain Name"]}</h3>
-    ${Object.entries(d).map(([k,v]) => `<p><b>${k}</b>: ${v}</p>`).join("")}
+    <div class="modal-header">
+      <h2>${d["Domain Name"] || "-"}</h2>
+      ${getStatusBadge(d.Status)}
+    </div>
+
+    <div class="modal-grid">
+
+      <div class="modal-section">
+        <h4>General</h4>
+        <p><b>Date Created:</b> ${d["Date Created"] || "-"}</p>
+        <p><b>Assignee:</b> ${d.Assignee || "-"}</p>
+        <p><b>Brand:</b> ${d.Brand || "-"}</p>
+        <p><b>Category:</b> ${d.Category || "-"}</p>
+        <p><b>Domain Type:</b> ${d["Domain Type"] || "-"}</p>
+        <p><b>Parent Domain:</b> ${d["Parent Domain"] || "-"}</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>Technical</h4>
+        <p><b>Hosting:</b> ${d.Hosting || "-"}</p>
+        <p><b>Cloudflare:</b> ${d.Cloudflare || "-"}</p>
+        <p><b>Marketing:</b> ${d.Marketing || "-"}</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>Links</h4>
+        <p><b>Domain:</b> 
+          <a href="https://${d["Domain Name"]}" target="_blank">
+            ${d["Domain Name"] || "-"}
+          </a>
+        </p>
+
+        <p><b>Backup:</b> 
+          ${
+            d["Backup Link"] 
+              ? `<a href="${d["Backup Link"]}" target="_blank">Open Backup</a>` 
+              : "-"
+          }
+        </p>
+      </div>
+
+      <div class="modal-section full">
+        <h4>Designer Notes</h4>
+        <p>${d["Designer's Note"] || "-"}</p>
+      </div>
+
+    </div>
   `;
 
   modal.style.display = "flex";
