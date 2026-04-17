@@ -84,6 +84,16 @@ const HOSTING_MAP = {
 };
 
 
+async function hashPassword(password) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+
+  return Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 function getHostingLink(hosting){
   if(!hosting) return "-";
 
@@ -171,13 +181,15 @@ async function loadUsers(){
   }
 }
 
-function handleLogin(){
+async function handleLogin(){
   const username = document.getElementById("loginUser").value.trim().toLowerCase();
   const password = document.getElementById("loginPass").value.trim();
 
+  const hashed = await hashPassword(password);
+
   const found = users.find(u => 
     (u.Username || "").toLowerCase() === username &&
-    u.Password === password
+    u.Password === hashed
   );
 
   if(found){
@@ -187,8 +199,9 @@ function handleLogin(){
     document.getElementById("loginModal").style.display = "none";
     document.querySelector(".app").style.display = "flex";
 
+    loadData();
   } else {
-    document.getElementById("loginError").innerText = "Invalid username or password";
+    document.getElementById("loginError").innerText = "Invalid login";
   }
 }
 
