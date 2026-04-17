@@ -1,5 +1,106 @@
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?gid=0&single=true&output=csv";
 
+const HOSTING_MAP = {
+"GD | MAH-IP-1": "https://184.168.124.184:2087",
+"GD | MAH-IP-2": "https://148.66.156.54:2087/",
+"GD | MAH-IP-3": "https://148.66.153.181:2087",
+"NC | MAH-IP-1": "https://209.74.88.194:2087/",
+"NC  | MAH-IP-2": "https://209.74.87.244:2087/",
+"NC  | MAH-IP-3": "https://209.74.77.44:2087/",
+"GD BBN": "https://148.66.153.27:2087",
+"GD BBN 2": "https://68.178.172.42:2087",
+"NC BBN 1": "https://203.161.46.208:2087/",
+"NC BBN 2": "https://159.198.36.243:2087/",
+"GD USL": "https://1.88.74.97.host.secureserver.net:2087/",
+"NC USL": "https://159.198.64.145:2087",
+"GDUSL-MS": "https://148.66.156.172:2087",
+"GD MBSW 1": "https://184.168.124.165:2087/",
+"GD MBSW 2": "https://68.178.172.210:2087/",
+"NC MBSW": "https://209.74.72.180:2087",
+"GD DPX": "https://148.66.157.172:2087",
+"NC DPX": "https://209.74.80.26:2087/",
+"GD USG": "https://148.72.244.4:2087",
+"NC USG": "https://209.74.64.141:2087",
+"GD DPN": "https://148.72.246.64:2087",
+"Namecheap DPN": "https://159.198.65.195:2087",
+"GD MBP": "https://97.74.92.141:2087",
+"NC | MBP-IP-1": "https://159.198.65.196:2087",
+"GD | MBN": "https://148.72.246.130:2087",
+"NC | MBN": "https://209.74.64.231:2087",
+"NC U138": "https://209.74.89.125:2087/",
+"GD U138": "https://97.74.80.207:2087/",
+"GD2 U138": "https://68.178.164.233:2087",
+"GD MS U138": "https://97.74.92.52:2087",
+
+// SG / domain-specific mappings
+"SG-1 | MAH-IP-1 | maha168slot.com": "https://15-235-215-150.cprapid.com:2083/",
+"SG-1 | MAH-IP-2 | maha168.com": "https://15-235-215-150.cprapid.com:2083/",
+"SG-2 | MAH-IP-2 | maha168bisa.com": "https://15-235-216-60.cprapid.com:2083/",
+"NC | MAH-IP-1 | situsmaha168.com": "https://situsmaha168.com/cpanel",
+"NC | MAH-IP-2 | centralbottle.com": "https://209.74.87.244:2083/",
+"NC | MAH-IP-3 | shoptrudeau.com": "https://shoptrudeau.com/cpanel",
+
+"NC | BBN-IP-1 | vrtify.com": "https://203.161.46.208:2083/",
+"NC | BBN-IP-2 | coopersfoodsmn.com": "https://coopersfoodsmn.com/cpanel",
+"SG-1 | BBN-IP-1 | hokibetberry.com": "https://15-235-215-150.cprapid.com:2083/",
+"SG-2 | BBN-IP-2 | betberryresmi.com": "https://ns5026652.ip-15-235-216.net:2083/",
+
+"SG-2 | MBP-IP-2 | mabosplayweb.com": "https://15-235-216-60.cprapid.com:2083/",
+"SG-2 | MBP-IP-3 | mabosplaygame.com": "https://15-235-216-60.cprapid.com:2083/",
+"NC | MBP-IP-1 | mabosplayonline.com": "https://159.198.65.196:2083/",
+"NC | MBP-IP-1 | shoplatintouch.com": "https://159.198.65.196:2083/",
+
+"SG-1 | MBSW-IP | mabosway.info": "https://15-235-215-150.cprapid.com:2083/",
+"SG-2 | MBSW-IP | maboswayyuk.com": "https://15-235-216-60.cprapid.com:2083/",
+"GD | MBSW-IP-1 | rawi-magazine.com": "https://184.168.124.165:2083/",
+"NC | MBSW-IP-1 | tutlance.com": "https://209.74.72.180:2083/",
+
+"SG-1 | USL | userslot.org": "https://15-235-215-150.cprapid.com:2083/",
+"NC | USL | soundselfgame.com": "https://159.198.64.145:2083/",
+"NC | USL | gregsicecream.com": "https://159.198.64.145:2083/",
+
+"GD | DPX-IP | gogodepoxito.com": "https://148.66.157.172:2083",
+"GD | DPX-IP | depoxitosuper.com": "https://148.66.157.172:2083",
+"NC | DPX | depoxitoamp.site": "https://209.74.80.26:2083/",
+"SG-1 | DPX-IP-1 | depoxitojp.com": "https://15-235-215-150.cprapid.com:2083/",
+"SG-2 | DPX-IP-2 | depoxitovvip.com": "https://15-235-216-60.cprapid.com:2083/",
+
+"NC | MBN-IP | porterrecords.com": "https://209.74.64.231:2083/",
+"SG-1 | MBN-IP-1 | mabosvippro.com": "https://15-235-215-150.cprapid.com:2083/",
+"SG-1 | MBN-IP-2 | mabosbetmax.com": "https://15-235-215-150.cprapid.com:2083/",
+
+"NC | U138 | bandaruser138.com": "https://bandaruser138.com:2083/",
+"SG-1 | U138-IP-1 | sitususer138": "https://sitususer138.com:2083/",
+"SG-1 | U138-IP-2 | judiuser138.com": "https://15-235-216-60.cprapid.com:2083/",
+"SG-2 | U138-IP-1 | slotuser138.com": "https://15-235-216-60.cprapid.com:2083/",
+
+"SG-2 | USG-IP-2 | serverusergacor.com": "https://ns5026652.ip-15-235-216.net:2083/",
+"NC | USG | enjoykickback.com": "https://enjoykickback.com/cpanel",
+
+"NC | Alexander": "https://premium28.web-hosting.com:2083/",
+"SG-1": "https://15-235-215-150.cprapid.com:2087/",
+"SG-2": "https://ns5026652.ip-15-235-216.net:2087/"
+};
+
+
+function getHostingLink(hosting){
+  if(!hosting) return "-";
+
+  // try exact match first
+  if(HOSTING_MAP[hosting]){
+    return `<a href="${HOSTING_MAP[hosting]}" target="_blank">${hosting}</a>`;
+  }
+
+  // fallback: partial match (important for messy sheet values)
+  const matchKey = Object.keys(HOSTING_MAP).find(key => hosting.includes(key));
+
+  if(matchKey){
+    return `<a href="${HOSTING_MAP[matchKey]}" target="_blank">${hosting}</a>`;
+  }
+
+  return hosting; // no link found
+}
+
 // ✅ ADD THIS FUNCTION RIGHT BELOW
 function parseCSV(text) {
   const rows = [];
@@ -142,7 +243,7 @@ function renderTable(){
       <td>${d.Category||""}</td>
       <td>${d["Domain Name"]||""}</td>
       <td>${getStatusBadge(d.Status)}</td>
-      <td>${d.Hosting||""}</td>
+      <td>${getHostingLink(d.Hosting)}</td>
       <td>${d.Cloudflare||""}</td>
       <td>${d.Marketing||""}</td>
       <td>
@@ -188,7 +289,7 @@ function openDetail(d){
 
       <div class="modal-section">
         <h4>Technical</h4>
-        <p><b>Hosting:</b> ${d.Hosting || "-"}</p>
+        <p><span class="label">Hosting</span>${getHostingLink(d.Hosting)}</p>
         <p><b>Cloudflare:</b> ${d.Cloudflare || "-"}</p>
         <p><b>Marketing:</b> ${d.Marketing || "-"}</p>
       </div>
