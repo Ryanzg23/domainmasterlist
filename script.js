@@ -81,7 +81,7 @@ function populateBrands(){
   const brands = [
     "All",
     "Maha168",
-    "Benberry",
+    "Betberry",
     "Usergacor",
     "Userslot",
     "User138",
