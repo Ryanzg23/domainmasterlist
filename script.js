@@ -53,6 +53,11 @@ async function loadData(){
 
     console.log("ROWS:", rows);
 
+    if (!rows || rows.length === 0) {
+      console.error("CSV is empty or failed to parse");
+      return;
+    }
+    
     const headers = rows[0];
 
     data = rows.slice(1)
