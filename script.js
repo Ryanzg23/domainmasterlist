@@ -1,4 +1,4 @@
-console.log("SCRIPT LOADED");
+
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?gid=0&single=true&output=csv";
 
 // ✅ ADD THIS FUNCTION RIGHT BELOW
