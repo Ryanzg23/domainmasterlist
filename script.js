@@ -41,23 +41,37 @@ function parseCSV(text) {
 let data = [];
 
 async function loadData(){
-  const res = await fetch(sheetURL);
-  const text = await res.text();
- const rows = parseCSV(text);
+  try {
+    const res = await fetch(sheetURL);
 
-  const headers = rows[0];
-data = rows.slice(1)
-  .filter(r => r.length > 1)
-  .map(r => {
-    let obj = {};
-    headers.forEach((h,i)=> obj[h.trim()] = r[i] || '');
-    return obj;
-  });
+    if (!res.ok) {
+      throw new Error("Failed to fetch sheet");
+    }
 
-  populateBrands();
-  renderTable();
+    const text = await res.text();
+    const rows = parseCSV(text);
+
+    console.log("ROWS:", rows);
+
+    const headers = rows[0];
+
+    data = rows.slice(1)
+      .filter(r => r.length > 1)
+      .map(r => {
+        let obj = {};
+        headers.forEach((h,i)=> obj[h.trim()] = r[i] || '');
+        return obj;
+      });
+
+    console.log("DATA:", data);
+
+    populateBrands();
+    renderTable();
+
+  } catch (err) {
+    console.error("LOAD ERROR:", err);
+  }
 }
-
 function populateBrands(){
   const brands = [...new Set(data.map(d=>d.Brand))];
   const select = document.getElementById("brandFilter");
