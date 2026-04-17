@@ -4,23 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Domain Dashboard</title>
-<style>
-body { margin:0; font-family: Arial, sans-serif; background:#f3f4f6; }
-.app { display:flex; height:100vh; }
-.sidebar { width:240px; background:#1f2937; color:#fff; padding:20px; }
-.sidebar h2 { margin-bottom:20px; }
-.sidebar ul { list-style:none; padding:0; }
-.sidebar li { padding:10px 0; cursor:pointer; }
-.main { flex:1; padding:20px; overflow:auto; }
-.controls { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
-.controls select, .controls input { padding:8px; border-radius:6px; border:1px solid #ccc; }
-button { padding:8px 12px; border:none; border-radius:6px; background:#3b82f6; color:#fff; cursor:pointer; }
-table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; }
-th, td { padding:12px; border-bottom:1px solid #eee; text-align:left; }
-tr:hover { background:#f9fafb; cursor:pointer; }
-.modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); display:none; align-items:center; justify-content:center; }
-.modal-content { background:#fff; padding:20px; border-radius:10px; width:500px; max-height:80vh; overflow:auto; }
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="app">
@@ -36,6 +20,7 @@ tr:hover { background:#f9fafb; cursor:pointer; }
   <main class="main">
     <div class="controls">
       <select id="brandFilter"></select>
+
       <select id="categoryFilter">
         <option>All</option>
         <option>Aged</option>
@@ -49,14 +34,17 @@ tr:hover { background:#f9fafb; cursor:pointer; }
         <option>Shorturl</option>
         <option>Ads</option>
       </select>
+
       <select id="typeFilter">
         <option>All Domains</option>
         <option>Primary</option>
         <option>Subdomain</option>
         <option>Inner folder</option>
       </select>
+
       <input type="text" id="search" placeholder="Search domain...">
-      <button onclick="openAddModal()">+ Add Domain</button>
+
+      <button id="addBtn">+ Add Domain</button>
     </div>
 
     <table>
@@ -66,6 +54,7 @@ tr:hover { background:#f9fafb; cursor:pointer; }
           <th>Assignee</th>
           <th>Brand</th>
           <th>Domain</th>
+          <th>Status</th>
           <th>Hosting</th>
           <th>Cloudflare</th>
           <th>Marketing</th>
@@ -76,26 +65,57 @@ tr:hover { background:#f9fafb; cursor:pointer; }
   </main>
 </div>
 
+<!-- Detail Modal -->
 <div class="modal" id="detailModal">
   <div class="modal-content" id="modalContent"></div>
 </div>
 
-<div class="modal" id="addModal">
-  <div class="modal-content">
-    <h3>Add Domain</h3>
-    <input id="domainName" placeholder="Domain Name"><br><br>
-    <select id="domainType">
-      <option>Primary</option>
-      <option>Subdomain</option>
-      <option>Inner folder</option>
-    </select><br><br>
-    <input id="assignee" placeholder="Assignee"><br><br>
-    <input id="brand" placeholder="Brand"><br><br>
-    <button onclick="addDomain()">Save</button>
-  </div>
-</div>
+<script src="script.js"></script>
+</body>
+</html>
 
-<script>
+
+// =========================
+// style.css
+// =========================
+body { margin:0; font-family: Arial, sans-serif; background:#f3f4f6; }
+.app { display:flex; height:100vh; }
+.sidebar { width:240px; background:#1f2937; color:#fff; padding:20px; }
+.sidebar h2 { margin-bottom:20px; }
+.sidebar ul { list-style:none; padding:0; }
+.sidebar li { padding:10px 0; cursor:pointer; }
+.main { flex:1; padding:20px; overflow:auto; }
+
+.controls { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.controls select, .controls input { padding:8px; border-radius:6px; border:1px solid #ccc; }
+
+button { padding:8px 12px; border:none; border-radius:6px; background:#3b82f6; color:#fff; cursor:pointer; }
+
+/* Table */
+table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; }
+th, td { padding:12px; border-bottom:1px solid #eee; }
+tr:hover { background:#f9fafb; cursor:pointer; }
+
+/* Badges */
+.badge { padding:4px 8px; border-radius:6px; font-size:12px; color:#fff; }
+.badge.active { background:#10b981; }
+.badge.parked { background:#6b7280; }
+.badge.pending { background:#f59e0b; }
+.badge.deleted { background:#ef4444; }
+.badge._301 { background:#3b82f6; }
+.badge.revert { background:#8b5cf6; }
+.badge.delete { background:#dc2626; }
+
+/* Modal */
+.modal { position:fixed; top:0; left:0; width:100%; height:100%; display:none; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; }
+.modal-content { background:#fff; padding:20px; border-radius:10px; width:500px; max-height:80vh; overflow:auto; }
+.modal-content h3 { margin-top:0; }
+.modal-content p { margin:6px 0; }
+
+
+// =========================
+// script.js
+// =========================
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?output=csv";
 
 let data = [];
@@ -122,6 +142,21 @@ function populateBrands(){
   select.innerHTML = '<option>All</option>' + brands.map(b=>`<option>${b}</option>`).join("");
 }
 
+function getStatusBadge(status){
+  if(!status) return '';
+  const s = status.toLowerCase();
+
+  if(s.includes('active')) return '<span class="badge active">Active</span>';
+  if(s.includes('parked')) return '<span class="badge parked">Parked</span>';
+  if(s.includes('pending')) return '<span class="badge pending">Pending</span>';
+  if(s.includes('deleted')) return '<span class="badge deleted">Deleted</span>';
+  if(s.includes('301')) return '<span class="badge _301">301</span>';
+  if(s.includes('revert')) return '<span class="badge revert">Revert</span>';
+  if(s.includes('deletion')) return '<span class="badge delete">For Deletion</span>';
+
+  return `<span class="badge">${status}</span>`;
+}
+
 function renderTable(){
   const tbody = document.getElementById("tableBody");
   const search = document.getElementById("search").value.toLowerCase();
@@ -131,7 +166,7 @@ function renderTable(){
 
   const filtered = data.filter(d => {
     return (
-      (!search || d["Domain Name"].toLowerCase().includes(search)) &&
+      (!search || (d["Domain Name"]||"").toLowerCase().includes(search)) &&
       (brand === "All" || d.Brand === brand) &&
       (type === "All Domains" || d["Domain Type"] === type) &&
       (category === "All" || d.Category === category)
@@ -144,6 +179,7 @@ function renderTable(){
       <td>${d.Assignee||""}</td>
       <td>${d.Brand||""}</td>
       <td>${d["Domain Name"]||""}</td>
+      <td>${getStatusBadge(d.Status)}</td>
       <td>${d.Hosting||""}</td>
       <td>${d.Cloudflare||""}</td>
       <td>${d.Marketing||""}</td>
@@ -155,7 +191,11 @@ function openDetail(d){
   const modal = document.getElementById("detailModal");
   const content = document.getElementById("modalContent");
 
-  content.innerHTML = Object.entries(d).map(([k,v]) => `<p><b>${k}</b>: ${v}</p>`).join("");
+  content.innerHTML = `
+    <h3>${d["Domain Name"]}</h3>
+    ${Object.entries(d).map(([k,v]) => `<p><b>${k}</b>: ${v}</p>`).join("")}
+  `;
+
   modal.style.display = "flex";
 }
 
@@ -165,28 +205,8 @@ window.onclick = function(e){
   }
 }
 
-function openAddModal(){
-  document.getElementById("addModal").style.display = "flex";
-}
-
-function addDomain(){
-  const newDomain = {
-    "Domain Name": document.getElementById("domainName").value,
-    "Domain Type": document.getElementById("domainType").value,
-    "Assignee": document.getElementById("assignee").value,
-    "Brand": document.getElementById("brand").value
-  };
-
-  data.push(newDomain);
-  renderTable();
-  document.getElementById("addModal").style.display = "none";
-}
-
 ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
   document.getElementById(id).addEventListener('input', renderTable);
 });
 
 loadData();
-</script>
-</body>
-</html>
