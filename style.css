@@ -14,7 +14,7 @@ button { padding:8px 12px; border:none; border-radius:6px; background:#3b82f6; c
 /* Table */
 table { width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; text-align: left; }
 th, td { padding:12px; border-bottom:1px solid #eee; }
-tbody tr:hover { background:#f9fafb; cursor:pointer; }
+tbody tr:hover { background:#e3e3e3; cursor:pointer; }
 thead{ background: #1f2937; color: #fff; }
 
 /* Badges */
