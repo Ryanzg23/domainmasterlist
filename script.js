@@ -139,6 +139,7 @@ function renderTable(){
       <td>${d["Date Created"]||""}</td>
       <td>${d.Assignee||""}</td>
       <td>${d.Brand||""}</td>
+      <td>${d.Category||""}</td>
       <td>${d["Domain Name"]||""}</td>
       <td>${getStatusBadge(d.Status)}</td>
       <td>${d.Hosting||""}</td>
