@@ -78,7 +78,7 @@ const HOSTING_MAP = {
 "SG-2 | USG-IP-2 | serverusergacor.com": "https://ns5026652.ip-15-235-216.net:2083/",
 "NC | USG | enjoykickback.com": "https://enjoykickback.com/cpanel",
 
-"NC | Alexander": "https://premium28.web-hosting.com:2083/",
+"Namecheap Alexander": "https://premium28.web-hosting.com:2083/",
 "SG-1": "https://15-235-215-150.cprapid.com:2087/",
 "SG-2": "https://ns5026652.ip-15-235-216.net:2087/"
 };
