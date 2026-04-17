@@ -168,19 +168,22 @@ function openDetail(d){
   content.innerHTML = `
     <div class="modal-header">
       <h2>${d["Domain Name"] || "-"}</h2>
-      ${getStatusBadge(d.Status)}
+      <div class="modal-header-right">
+        ${getStatusBadge(d.Status)}
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
     </div>
 
     <div class="modal-grid">
 
       <div class="modal-section">
         <h4>General</h4>
-        <p><b>Date Created:</b> ${d["Date Created"] || "-"}</p>
-        <p><b>Assignee:</b> ${d.Assignee || "-"}</p>
-        <p><b>Brand:</b> ${d.Brand || "-"}</p>
-        <p><b>Category:</b> ${d.Category || "-"}</p>
-        <p><b>Domain Type:</b> ${d["Domain Type"] || "-"}</p>
-        <p><b>Parent Domain:</b> ${d["Parent Domain"] || "-"}</p>
+        <p><span class="label">Date Created</span>${d["Date Created"] || "-"}</p>
+        <p><span class="label">Assignee</span>${d.Assignee || "-"}</p>
+        <p><span class="label">Brand</span>${d.Brand || "-"}</p>
+        <p><span class="label">Category</span>${d.Category || "-"}</p>
+        <p><span class="label">Domain Type</span>${d["Domain Type"] || "-"}</p>
+        <p><span class="label">Parent Domain</span>${d["Parent Domain"] || "-"}</p>
       </div>
 
       <div class="modal-section">
@@ -218,6 +221,9 @@ function openDetail(d){
   modal.style.display = "flex";
 }
 
+function closeModal(){
+  document.getElementById("detailModal").style.display = "none";
+}
 window.onclick = function(e){
   if(e.target.classList.contains("modal")){
     e.target.style.display = "none";
