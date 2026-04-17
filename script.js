@@ -19,7 +19,7 @@ const HOSTING_MAP = {
 "NC MBSW": "https://209.74.72.180:2087",
 "GD DPX": "https://148.66.157.172:2087",
 "NC DPX": "https://209.74.80.26:2087/",
-"GD USG": "https://148.72.244.4:2087",
+"GD USG 1": "https://148.72.244.4:2087",
 "NC USG": "https://209.74.64.141:2087",
 "GD DPN": "https://148.72.246.64:2087",
 "Namecheap DPN": "https://159.198.65.195:2087",
