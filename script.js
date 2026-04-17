@@ -1,4 +1,3 @@
-
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?gid=0&single=true&output=csv";
 
 // ✅ ADD THIS FUNCTION RIGHT BELOW
@@ -44,22 +43,22 @@ let data = [];
 async function loadData(){
   try {
     const res = await fetch(sheetURL);
-
-    if (!res.ok) {
-      throw new Error("Failed to fetch sheet");
-    }
-
     const text = await res.text();
+
+    console.log("RAW:", text.slice(0, 200)); // preview only
+
     const rows = parseCSV(text);
 
     console.log("ROWS:", rows);
 
     if (!rows || rows.length === 0) {
-      console.error("CSV is empty or failed to parse");
+      console.error("No rows parsed");
       return;
     }
-    
+
     const headers = rows[0];
+
+    console.log("HEADERS:", headers);
 
     data = rows.slice(1)
       .filter(r => r.length > 1)
@@ -147,15 +146,14 @@ window.onclick = function(e){
   }
 }
 
-['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
-  document.getElementById(id).addEventListener('input', renderTable);
-});
-
-
 document.addEventListener("DOMContentLoaded", () => {
-  loadData();
+
+  console.log("DOM READY");
 
   ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', renderTable);
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', renderTable);
   });
+
+  loadData();
 });
