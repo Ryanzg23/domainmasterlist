@@ -196,20 +196,21 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await loadUsers();
 
+  const modal = document.getElementById("loginModal");
+  const app = document.querySelector(".app");
+
   const isAuth = localStorage.getItem("auth");
 
   if(isAuth){
-    document.getElementById("loginModal").style.display = "none";
-    document.querySelector(".app").style.display = "flex";
+    if(modal) modal.style.display = "none";
+    if(app) app.style.display = "flex";
     loadData();
   } else {
-    document.getElementById("loginModal").style.display = "flex";
+    if(modal) modal.style.display = "flex";
+    if(app) app.style.display = "none";
   }
 
-  ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', renderTable);
-  });
+  document.getElementById("loginBtn").addEventListener("click", handleLogin);
 
 });
 
