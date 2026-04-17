@@ -134,7 +134,7 @@ function renderTable(){
     );
   });
 
-  tbody.innerHTML = filtered.map(d => `
+  tbody.innerHTML = filtered.map((d, index) => `
     <tr>
       <td>${d["Date Created"]||""}</td>
       <td>${d.Assignee||""}</td>
@@ -146,12 +146,19 @@ function renderTable(){
       <td>${d.Cloudflare||""}</td>
       <td>${d.Marketing||""}</td>
       <td>
-        <button class="view-btn" onclick='openDetail(${JSON.stringify(d)})'>
+        <button class="view-btn" data-index="${index}">
           View
         </button>
       </td>
     </tr>
   `).join("");
+  document.querySelectorAll(".view-btn").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); // prevent row click if you add it later
+      const index = btn.getAttribute("data-index");
+      openDetail(filtered[index]);
+    });
+  });
 }
 
 function openDetail(d){
