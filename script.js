@@ -1,16 +1,56 @@
 const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ1E7iKMXB8tgSCJBHKBX-LOvIuJzKdRO2eZhuAyTWArZGnX5_8bU-reZg_a8oI7oppN4lXH-439WXI/pub?output=csv";
 
+// ✅ ADD THIS FUNCTION RIGHT BELOW
+function parseCSV(text) {
+  const rows = [];
+  let row = [];
+  let current = '';
+  let insideQuotes = false;
+
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
+
+    if (char === '"' && text[i + 1] === '"') {
+      current += '"';
+      i++;
+    } else if (char === '"') {
+      insideQuotes = !insideQuotes;
+    } else if (char === ',' && !insideQuotes) {
+      row.push(current);
+      current = '';
+    } else if ((char === '\n' || char === '\r') && !insideQuotes) {
+      if (current || row.length) {
+        row.push(current);
+        rows.push(row);
+        row = [];
+        current = '';
+      }
+    } else {
+      current += char;
+    }
+  }
+
+  if (current || row.length) {
+    row.push(current);
+    rows.push(row);
+  }
+
+  return rows;
+}
+
 let data = [];
 
 async function loadData(){
   const res = await fetch(sheetURL);
   const text = await res.text();
-  const rows = text.split("\n").map(r => r.split(","));
+ const rows = parseCSV(text);
 
   const headers = rows[0];
-  data = rows.slice(1).map(r => {
+data = rows.slice(1)
+  .filter(r => r.length > 1)
+  .map(r => {
     let obj = {};
-    headers.forEach((h,i)=> obj[h.trim()] = r[i]);
+    headers.forEach((h,i)=> obj[h.trim()] = r[i] || '');
     return obj;
   });
 
