@@ -157,12 +157,11 @@ async function loadUsers(){
     const res = await fetch(USERS_URL);
     const text = await res.text();
 
-    const rows = parseCSV(text);
+    console.log("RAW USERS CSV:", text);
 
-    if (!rows || rows.length === 0) {
-      console.error("Users sheet empty");
-      return;
-    }
+    const rows = text
+      .split('\n')
+      .map(row => row.split(','));
 
     const headers = rows[0];
 
@@ -171,10 +170,7 @@ async function loadUsers(){
       .map(r => {
         let obj = {};
         headers.forEach((h,i)=> 
-          obj[h.trim()] = (r[i] || '')
-            .replace(/\n/g, '')
-            .replace(/\r/g, '')
-            .trim()
+          obj[h.trim()] = (r[i] || '').trim()
         );
         return obj;
       });
@@ -183,7 +179,6 @@ async function loadUsers(){
 
   } catch(err){
     console.error("USER LOAD ERROR:", err);
-    console.log("RAW USERS CSV:", text);
   }
 }
 
