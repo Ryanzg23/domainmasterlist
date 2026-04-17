@@ -187,10 +187,21 @@ async function handleLogin(){
 
   const hashed = await hashPassword(password);
 
+  console.log("INPUT USER:", username);
+  console.log("INPUT HASH:", hashed);
+
+  users.forEach(u => {
+    console.log("----");
+    console.log("SHEET USER:", (u.Username || "").toLowerCase().trim());
+    console.log("SHEET PASS:", (u.Password || "").trim());
+  });
+
   const found = users.find(u => 
-    (u.Username || "").toLowerCase() === username &&
-    u.Password === hashed
+    (u.Username || "").toLowerCase().trim() === username &&
+    (u.Password || "").trim() === hashed
   );
+
+  console.log("MATCH:", found);
 
   if(found){
     localStorage.setItem("auth", "true");
