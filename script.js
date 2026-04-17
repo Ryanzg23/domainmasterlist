@@ -78,9 +78,29 @@ async function loadData(){
   }
 }
 function populateBrands(){
-  const brands = [...new Set(data.map(d=>d.Brand))];
+  const brands = [
+    "All",
+    "Maha168",
+    "Benberry",
+    "Usergacor",
+    "Userslot",
+    "User138",
+    "Depo168",
+    "Mabosway",
+    "Depoxito",
+    "Mabosbet",
+    "Mabosplay",
+    "Ads",
+    "Ads MBS",
+    "Ads DPN",
+    "Mabos BL"
+  ];
+
   const select = document.getElementById("brandFilter");
-  select.innerHTML = '<option>All</option>' + brands.map(b=>`<option>${b}</option>`).join("");
+
+  select.innerHTML = brands
+    .map(b => `<option value="${b}">${b}</option>`)
+    .join("");
 }
 
 function getStatusBadge(status){
