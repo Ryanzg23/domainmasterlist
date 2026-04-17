@@ -19,28 +19,37 @@
 
   <main class="main">
     <div class="controls">
-      <select id="brandFilter"></select>
-
-      <select id="categoryFilter">
-        <option>All</option>
-        <option>Aged</option>
-        <option>KW</option>
-        <option>MS</option>
-        <option>Mirror</option>
-        <option>AMP</option>
-        <option>ALT</option>
-        <option>Spinwheel</option>
-        <option>RTP</option>
-        <option>Shorturl</option>
-        <option>Ads</option>
-      </select>
-
-      <select id="typeFilter">
-        <option>All Domains</option>
-        <option>Primary</option>
-        <option>Subdomain</option>
-        <option>Inner folder</option>
-      </select>
+      <div class="filter-group">
+        <label>Brand</label>
+        <select id="brandFilter"></select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Category</label>
+        <select id="categoryFilter">
+          <option>All</option>
+          <option>Aged</option>
+          <option>KW</option>
+          <option>MS</option>
+          <option>Mirror</option>
+          <option>AMP</option>
+          <option>ALT</option>
+          <option>Spinwheel</option>
+          <option>RTP</option>
+          <option>Shorturl</option>
+          <option>Ads</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <label>Type</label>
+        <select id="typeFilter">
+          <option>All Domains</option>
+          <option>Primary</option>
+          <option>Subdomain</option>
+          <option>Inner folder</option>
+        </select>
+      </div>
 
       <input type="text" id="search" placeholder="Search domain...">
 
