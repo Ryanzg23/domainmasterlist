@@ -304,3 +304,43 @@ td a:hover {
   font-size:12px;
   margin-top:8px;
 }
+
+#pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* ✅ CENTER */
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.page-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #374151;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.page-btn:hover {
+  background: #f3f4f6;
+}
+
+/* ✅ ACTIVE PAGE */
+.page-btn.active {
+  background: #111827;
+  color: #fff;
+  border-color: #111827;
+  font-weight: 600;
+}
+
+/* dots */
+.dots {
+  padding: 0 6px;
+  color: #9ca3af;
+  font-size: 13px;
+}
