@@ -386,3 +386,5 @@ td a:hover {
   border: none;
   cursor: pointer;
 }
+
+#tableBody tr td:first-child{ white-space: nowrap; }
