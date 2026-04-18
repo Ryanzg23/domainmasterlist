@@ -462,23 +462,74 @@ window.onclick = function(e){
   }
 }
 
+function pageButton(page){
+  return `
+    <button class="page-btn ${page === currentPage ? 'active' : ''}" 
+      onclick="changePage(${page})">
+      ${page}
+    </button>
+  `;
+}
+
 function renderPagination(totalPages){
   const container = document.getElementById("pagination");
 
+  if(totalPages <= 1){
+    container.innerHTML = "";
+    return;
+  }
+
   let html = '';
 
-  // Prev
-  html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">Prev</button>`;
+  // ✅ PREV (only if not page 1)
+  if(currentPage > 1){
+    html += `<button class="page-btn" onclick="changePage(${currentPage - 1})">Prev</button>`;
+  }
 
-let start = Math.max(1, currentPage - 2);
-let end = Math.min(totalPages, currentPage + 2);
+  // ✅ ALWAYS show first page
+  html += pageButton(1);
 
-for(let i = start; i <= end; i++){
-  html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
-}
+  // RANGE LOGIC
+  let start, end;
 
-  // Next
-  html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Next</button>`;
+  if(currentPage <= 6){
+    // beginning
+    start = 2;
+    end = Math.min(6, totalPages - 1);
+  } else {
+    // middle
+    start = currentPage - 3;
+    end = currentPage + 2;
+
+    if(end >= totalPages){
+      end = totalPages - 1;
+    }
+  }
+
+  // ✅ LEFT DOTS
+  if(start > 2){
+    html += `<span class="dots">...</span>`;
+  }
+
+  // ✅ MIDDLE PAGES
+  for(let i = start; i <= end; i++){
+    html += pageButton(i);
+  }
+
+  // ✅ RIGHT DOTS
+  if(end < totalPages - 1){
+    html += `<span class="dots">...</span>`;
+  }
+
+  // ✅ LAST PAGE
+  if(totalPages > 1){
+    html += pageButton(totalPages);
+  }
+
+  // ✅ NEXT (only if not last page)
+  if(currentPage < totalPages){
+    html += `<button class="page-btn" onclick="changePage(${currentPage + 1})">Next</button>`;
+  }
 
   container.innerHTML = html;
 }
