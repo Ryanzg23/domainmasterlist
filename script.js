@@ -83,6 +83,13 @@ const HOSTING_MAP = {
 "SG-2": "https://ns5026652.ip-15-235-216.net:2087/"
 };
 
+function cleanDomain(url){
+  if(!url) return "";
+
+  return url
+    .replace(/^https?:\/\/(www\.)?/i, '') // remove http/https + www
+    .replace(/\/$/, ''); // remove trailing slash
+}
 
 async function hashPassword(password) {
   const encoder = new TextEncoder();
@@ -377,7 +384,7 @@ const paginated = filtered.slice(start, start + rowsPerPage);
       <td>${d.Assignee||""}</td>
       <td>${d.Brand||""}</td>
       <td>${d.Category||""}</td>
-      <td>${d["Domain Name"]||""}</td>
+      <td>${cleanDomain(d["Domain Name"])}</td>
       <td>${getStatusBadge(d.Status)}</td>
       <td>${getHostingLink(d.Hosting)}</td>
       <td>${d.Cloudflare||""}</td>
@@ -401,6 +408,11 @@ const paginated = filtered.slice(start, start + rowsPerPage);
 function changePage(page){
   currentPage = page;
   renderTable();
+}
+
+function getFullURL(url){
+  if(!url) return "#";
+  return url.startsWith("http") ? url : "https://" + url;
 }
 
 function openDetail(d){
@@ -438,8 +450,8 @@ function openDetail(d){
       <div class="modal-section">
         <h4>Links</h4>
         <p><b>Domain:</b> 
-          <a href="https://${d["Domain Name"]}" target="_blank">
-            ${d["Domain Name"] || "-"}
+          <a href="${getFullURL(d["Domain Name"])}" target="_blank">
+            ${cleanDomain(d["Domain Name"])}
           </a>
         </p>
 
