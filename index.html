@@ -51,21 +51,24 @@
           <option>Inner Folder</option>
         </select>
       </div>
-      <div class="table-controls">
+      <div class="filter-group">
+        <label>Show</label>
+        <select id="rowsPerPageSelect">
+          <option value="15">15</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
       
-        <div class="entries-control">
-          <label>Show</label>
-          <select id="rowsPerPageSelect">
-            <option value="15">15</option>
-            <option value="25" selected>25</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-          <span>entries</span>
-        </div>
-      
+      <div class="filter-group search-group">
+        <label>Search</label>
         <input type="text" id="search" placeholder="Search domains">
+      </div>
       
+      <div class="filter-group">
+        <label>&nbsp;</label>
+        <button id="addBtn">+ Add Domain</button>
       </div>
 
       <button id="addBtn">+ Add Domain</button>
