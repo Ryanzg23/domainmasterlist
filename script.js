@@ -248,6 +248,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+  const rowsSelect = document.getElementById("rowsPerPageSelect");
+    
+    if(rowsSelect){
+      rowsSelect.addEventListener("change", () => {
+        rowsPerPage = parseInt(rowsSelect.value);
+        currentPage = 1; // reset page
+        renderTable();
+      });
+    }
+
 });
 
 function logout(){
@@ -257,7 +267,7 @@ function logout(){
 
 let data = [];
 let currentPage = 1;
-const rowsPerPage = 15;
+let rowsPerPage = 25;
 
 async function loadData(){
   try {
