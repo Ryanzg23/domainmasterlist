@@ -237,11 +237,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   document.getElementById("loginBtn").addEventListener("click", handleLogin);
 
-  // ✅ MOVE HERE
-  ['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
-    const el = document.getElementById(id);
-    if (el) el.addEventListener('input', renderTable);
-  });
+
+['search','brandFilter','typeFilter','categoryFilter'].forEach(id=>{
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('input', () => {
+      currentPage = 1;
+      renderTable();
+    });
+  }
+});
 
 });
 
@@ -251,6 +256,8 @@ function logout(){
 }
 
 let data = [];
+let currentPage = 1;
+const rowsPerPage = 25;
 
 async function loadData(){
   try {
@@ -339,14 +346,22 @@ function renderTable(){
 
   const filtered = data.filter(d => {
     return (
-      (!search || (d["Domain Name"]||"").toLowerCase().includes(search)) &&
-      (brand === "All" || d.Brand === brand) &&
-      (type === "All Domains" || d["Domain Type"] === type) &&
-      (category === "All" || d.Category === category)
-    );
-  });
+        (!search || (d["Domain Name"]||"").toLowerCase().includes(search)) &&
+        (brand === "All" || d.Brand === brand) &&
+        (type === "All Domains" || d["Domain Type"] === type) &&
+        (category === "All" || d.Category === category)
+      );
+    });
+    
+const totalPages = Math.max(1, Math.ceil(filtered.length / rowsPerPage));
 
-  tbody.innerHTML = filtered.map((d, index) => `
+if (currentPage < 1) currentPage = 1;
+if (currentPage > totalPages) currentPage = totalPages;
+
+const start = (currentPage - 1) * rowsPerPage;
+const paginated = filtered.slice(start, start + rowsPerPage);
+
+  tbody.innerHTML = paginated.map((d, index) => `
     <tr>
       <td>${d["Date Created"]||""}</td>
       <td>${d.Assignee||""}</td>
@@ -358,7 +373,7 @@ function renderTable(){
       <td>${d.Cloudflare||""}</td>
       <td>${d.Marketing||""}</td>
       <td>
-        <button class="view-btn" data-index="${index}">
+        <button class="view-btn" data-index="${start + index}">
           View
         </button>
       </td>
@@ -367,10 +382,15 @@ function renderTable(){
   document.querySelectorAll(".view-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation(); // prevent row click if you add it later
-      const index = parseInt(btn.getAttribute("data-index"));
-      openDetail(filtered[index]);
+        const index = parseInt(btn.getAttribute("data-index"));
+        openDetail(filtered[index]);
     });
   });
+  renderPagination(totalPages);
+}
+function changePage(page){
+  currentPage = page;
+  renderTable();
 }
 
 function openDetail(d){
@@ -440,6 +460,27 @@ window.onclick = function(e){
   if(e.target.classList.contains("modal")){
     e.target.style.display = "none";
   }
+}
+
+function renderPagination(totalPages){
+  const container = document.getElementById("pagination");
+
+  let html = '';
+
+  // Prev
+  html += `<button class="page-btn" ${currentPage === 1 ? 'disabled' : ''} onclick="changePage(${currentPage - 1})">Prev</button>`;
+
+let start = Math.max(1, currentPage - 2);
+let end = Math.min(totalPages, currentPage + 2);
+
+for(let i = start; i <= end; i++){
+  html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">${i}</button>`;
+}
+
+  // Next
+  html += `<button class="page-btn" ${currentPage === totalPages ? 'disabled' : ''} onclick="changePage(${currentPage + 1})">Next</button>`;
+
+  container.innerHTML = html;
 }
 
 
