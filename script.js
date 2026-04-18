@@ -86,9 +86,20 @@ const HOSTING_MAP = {
 function cleanDomain(url){
   if(!url) return "";
 
-  return url
-    .replace(/^https?:\/\/(www\.)?/i, '') // remove http/https + www
-    .replace(/\/$/, ''); // remove trailing slash
+  const cleaned = extractURL(url);
+
+  return cleaned
+    .replace(/^https?:\/\/(www\.)?/i, '')
+    .replace(/\/$/, '');
+}
+
+function extractURL(raw){
+  if(!raw) return "";
+
+  // remove notes after " - "
+  const cleaned = raw.split(" - ")[0].trim();
+
+  return cleaned;
 }
 
 async function hashPassword(password) {
@@ -412,7 +423,10 @@ function changePage(page){
 
 function getFullURL(url){
   if(!url) return "#";
-  return url.startsWith("http") ? url : "https://" + url;
+
+  const cleaned = extractURL(url);
+
+  return cleaned.startsWith("http") ? cleaned : "https://" + cleaned;
 }
 
 function openDetail(d){
