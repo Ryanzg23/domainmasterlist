@@ -344,3 +344,27 @@ td a:hover {
   color: #9ca3af;
   font-size: 13px;
 }
+
+.table-controls {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.entries-control {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  color:#374151;
+}
+
+.entries-control select {
+  padding:6px 8px;
+  border-radius:6px;
+  border:1px solid #ccc;
+  cursor:pointer;
+}
