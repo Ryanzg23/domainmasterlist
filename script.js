@@ -367,7 +367,7 @@ function renderTable(){
   document.querySelectorAll(".view-btn").forEach(btn => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation(); // prevent row click if you add it later
-      const index = btn.getAttribute("data-index");
+      const index = parseInt(btn.getAttribute("data-index"));
       openDetail(filtered[index]);
     });
   });
