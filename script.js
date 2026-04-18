@@ -257,7 +257,7 @@ function logout(){
 
 let data = [];
 let currentPage = 1;
-const rowsPerPage = 25;
+const rowsPerPage = 15;
 
 async function loadData(){
   try {
